@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambrosium</title>
+    <link rel="stylesheet" href="reset.css">
+</head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<body>
+    <!-- Début de menu de gauche -->
+    <style>
+    @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+a,nav{
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+  color: yellow ;
+  font-size: 100%;
+  line-height: 2;
+}
+body {
+  margin: 0;
+  background-size: cover;
+}
+nav {
+  --duration: .5s;
+  --easing: ease-in-out;
+  position: relative;
+  width: 250px;
+  margin: 20px;
+}
+nav ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+nav li {
+  margin: -4px 0 0 0;
+}
+nav a {
+  display: block;
+  text-decoration: none;
+  background: #2292e8;
+  transform-origin: 0 0;
+  text-align: center;
+  transition: transform var(--duration) var(--easing), color var(--duration) var(--easing);
+  transition-delay: var(--delay-out);
+  border-radius: 4px;
+  padding: 1em 1.52em;
+  font-weight: bold;
+}
+nav a:hover {
+  background: #22d1e5;
+}
+nav header {
+  font-weight: 600px;
+  display: block;
+  background: #2263e5;
+  transform-origin: 0 0;
+  transition: transform var(--duration) var(--easing), color var(--duration) var(--easing);
+  transition-delay: var(--delay-out);
+  border-radius: 4px;
+  padding: 1em 1.52em;
+}
+nav header span {
+  border: none;
+  background: transparent;
+  font-size: 1.5em;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  float: right;
+}
+nav footer button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  padding: calc(1em - 2px);
+  width: 100%;
+  transform-origin: 0 0;
+  transition: transform var(--duration) var(--easing);
+  transition-delay: calc(var(--duration) + (.1s * (var(--count) / 2)));
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+}
+nav.closed a,
+nav.closed header {
+  transform: translateY(calc(var(--top) * -1)) scaleY(0.1) scaleX(0.2);
+  transition-delay: var(--delay-in);
+  color: transparent;
+}
+nav.closed footer button {
+  transition-delay: 0s;
+  transform: scaleY(0.7) scaleX(0.2);
+}
+
+    
+    </style>
+</head>
+<body>
+    <nav class="menu">
+    <header>Menu <span>x</span></header>
+    <ol>
+        <li class="menu-item"><a href="#0">Forums</a></li>
+        <li class="menu-item"><a href="#0">Nous Contacter</a></li>
+        <li class="menu-item"><a href="#0">Launcher</a></li>
+        <li class="menu-item"><a href="#0">Events</a></li>
+        <li class="menu-item"><a href="#0">Vote</a></li>
+        <li class="menu-item"><a href="#0">Actu</a></li>
+    </ol>
+    <footer><button aria-label="Toggle Menu">Toggle</button></footer>
+</nav> 
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    
+  var $els = $('.menu a, .menu header');
+var count = $els.length;
+var grouplength = Math.ceil(count/3);
+var groupNumber = 0;
+var i = 1;
+$('.menu').css('--count',count+'');
+$els.each(function(j){
+    if ( i > grouplength ) {
+        groupNumber++;
+        i=1;
+    }
+    $(this).attr('data-group',groupNumber);
+    i++;
+});
+
+$('.menu footer button').on('click',function(e){
+    e.preventDefault();
+    $els.each(function(j){
+        $(this).css('--top',$(this)[0].getBoundingClientRect().top + ($(this).attr('data-group') * -15) - 20);
+        $(this).css('--delay-in',j*.1+'s');
+        $(this).css('--delay-out',(count-j)*.1+'s');
+    });
+    $('.menu').toggleClass('closed');
+    e.stopPropagation();
+});
+
+// run animation once at beginning for demo
+setTimeout(function(){
+    $('.menu footer button').click();
+    setTimeout(function(){
+        $('.menu footer button').click();
+    }, (count * 100) + 500 );
+}, 1000);
+    
+</script>
+<!-- Fin de menu de gauche -->
+</body>
+</html>
